@@ -1,0 +1,16 @@
+{
+  "name": "review-analyzer",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Drop in product reviews to get aspect-level sentiment, trend lines, suspicious-review detection, and an AI executive summary with reply drafts.",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node tests/run-node.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dguywhoknows/review-analyzer.git"
+  },
+  "homepage": "https://dguywhoknows.github.io/review-analyzer/",
+  "license": "MIT"
+}

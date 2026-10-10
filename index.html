@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review Radar</title>
+<meta name="description" content="Drop in product reviews: aspect-level sentiment, trend lines, suspicious-review detection and an AI executive summary with reply drafts.">
+<meta name="app-repo" content="https://github.com/dguywhoknows/review-analyzer">
+<meta name="app-version" content="2.0.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ERR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo" aria-hidden="true">RR</span><div><h1>Review Radar</h1><p>What are customers actually saying?</p></div></div>
+  <nav class="topnav" data-nav aria-label="Pages"></nav>
+  <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/review-analyzer" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
+</header>
+<div class="page active" data-page="overview" data-title="Overview">
+<main class="stack">
+  <div class="card row between">
+    <div class="row">
+      <select id="dataset" style="width:auto" aria-label="Dataset"></select>
+      <label class="btn primary">Import CSV<input type="file" id="csv" accept=".csv,.txt" hidden></label>
+      <button class="btn" id="sample">Load samples</button>
+      <button class="btn ghost" id="pasteBtn">Paste reviews</button>
+      <button class="btn ghost danger" id="delSet">Delete dataset</button>
+    </div>
+    <span class="small muted">CSV needs a text/review column; rating (1-5, /10 or /100) and date are optional</span>
+  </div>
+  <textarea id="paste" class="hidden" rows="6" placeholder="One review per line. Optionally start with a rating: 4 | Great sound but…"></textarea>
+  <div class="kpis" id="tiles"></div>
+  <div class="grid cols-2">
+    <div class="card"><h2>Aspect sentiment</h2><div id="aspects"></div><p class="small muted">Share of positive vs negative mentions per aspect (sentence-level, with negation handling).</p></div>
+    <div class="card"><h2>Rating distribution</h2><div id="distMini"></div></div>
+  </div>
+  <div class="card">
+    <div class="row between"><h2 style="margin:0">AI executive summary</h2><button class="btn" id="summ">Summarize</button></div>
+    <div id="summary" style="margin-top:10px"><p class="small muted">Sends a stratified sample of reviews plus the local stats to the AI.</p></div>
+  </div>
+  <div class="grid cols-2">
+    <div class="card"><h2>Distinctive words</h2><div class="grid cols-2"><div><h3 style="color:var(--good)">in 4-5 star reviews</h3><div id="posWords" class="cloud"></div></div><div><h3 style="color:var(--bad)">in 1-2 star reviews</h3><div id="negWords" class="cloud"></div></div></div><p class="small muted">Weighted log-odds ratio with an informative prior (Monroe et al.).</p></div>
+    <div class="card"><h2>Suspicious reviews</h2><div id="sus"></div></div>
+  </div>
+  <div class="card">
+    <div class="row between"><h2 style="margin:0">Reviews</h2><div class="row"><select id="fAspect" style="width:auto"><option value="">All aspects</option></select><select id="fSent" style="width:auto"><option value="">Any sentiment</option><option value="neg">Negative</option><option value="pos">Positive</option><option value="mismatch">Rating disagrees with text</option></select></div></div>
+    <div id="list" class="list"></div>
+  </div>
+</main>
+</div>
+<div class="page" data-page="trends" data-title="Trends">
+<main class="stack">
+  <div class="card"><h2>Ratings and sentiment by month</h2><div id="trend"></div><div id="dist"></div></div>
+  <div class="card"><div class="row between"><h2 style="margin:0">Aspect sentiment by month</h2><span class="small muted">net = (positive − negative) / mentions</span></div><div id="heat" class="table-wrap"></div></div>
+  <div class="card"><h2>Detected shifts</h2><div id="shifts"></div></div>
+</main>
+</div>
+
+<div class="page" data-page="phrases" data-title="Phrases">
+<main class="grid cols-2">
+  <div class="card"><h2 style="color:var(--bad)">In negative reviews</h2><div id="negPhrases"></div></div>
+  <div class="card"><h2 style="color:var(--good)">In positive reviews</h2><div id="posPhrases"></div></div>
+</main>
+</div>
+
+<div class="page" data-page="compare" data-title="Compare">
+<main class="stack">
+  <div class="card row"><select id="cmpA" style="width:auto" aria-label="First dataset"></select><span class="muted">vs</span><select id="cmpB" style="width:auto" aria-label="Second dataset"></select><span class="small muted">Load samples to get two fictional products to compare.</span></div>
+  <div class="kpis" id="cmpTiles"></div>
+  <div class="card"><h2>Aspect by aspect</h2><div id="cmpTable"></div></div>
+</main>
+</div>
+
+<div class="page" data-page="replies" data-title="Replies">
+<main class="stack">
+  <div class="page-head"><div><h2>Reply queue</h2><p id="repSummary"></p></div><div class="row"><select id="repFilter" style="width:auto" aria-label="Filter"><option value="todo">Needs a reply</option><option value="draft">Drafted</option><option value="sent">Marked sent</option><option value="">All negative</option></select><button class="btn" id="repAll">Draft the next 5</button><button class="btn ghost" id="repCsv">Export CSV</button></div></div>
+  <div id="repList" class="stack"></div>
+</main>
+</div>
+
+<div class="page" data-page="settings" data-title="Settings"></div>
+<script src="src/lib/dom.js"></script>
+<script src="src/lib/ai.js"></script>
+<script src="src/lib/router.js"></script>
+<script src="src/core.js"></script>
+<script src="src/demo.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
