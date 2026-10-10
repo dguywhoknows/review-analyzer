@@ -3,90 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Review Radar</title>
-<meta name="description" content="Drop in product reviews: aspect-level sentiment, trend lines, suspicious-review detection and an AI executive summary with reply drafts.">
-<meta name="app-repo" content="https://github.com/dguywhoknows/review-analyzer">
-<meta name="app-version" content="2.0.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ERR%3C/text%3E%3C/svg%3E">
+<title>Review Radar: What are your customers actually saying?</title>
+<meta name="description" content="Aspect-level sentiment, trends that show when something changed, complaint phrases and reply drafts for unhappy customers.">
+<meta property="og:title" content="Review Radar">
+<meta property="og:description" content="Aspect-level sentiment, trends that show when something changed, complaint phrases and reply drafts for unhappy customers.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='13' fill='white'%3ERR%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/app.css">
+<link rel="stylesheet" href="styles/landing.css">
+<style>:root { --accent: #4f46e5; }</style>
 </head>
-<body>
-<header class="topbar">
-  <div class="brand"><span class="logo" aria-hidden="true">RR</span><div><h1>Review Radar</h1><p>What are customers actually saying?</p></div></div>
-  <nav class="topnav" data-nav aria-label="Pages"></nav>
-  <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/review-analyzer" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
+<body class="landing">
+<header class="l-nav">
+  <a class="l-brand" href="#top"><span class="logo">RR</span><b>Review Radar</b></a>
+  <nav aria-label="Sections"><a href="#demo">Demo</a><a href="#ask">Ask it</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
+  <div class="l-nav-cta"><a class="btn primary" href="app.html">Open the app</a></div>
 </header>
-<div class="page active" data-page="overview" data-title="Overview">
-<main class="stack">
-  <div class="card row between">
-    <div class="row">
-      <select id="dataset" style="width:auto" aria-label="Dataset"></select>
-      <label class="btn primary">Import CSV<input type="file" id="csv" accept=".csv,.txt" hidden></label>
-      <button class="btn" id="sample">Load samples</button>
-      <button class="btn ghost" id="pasteBtn">Paste reviews</button>
-      <button class="btn ghost danger" id="delSet">Delete dataset</button>
+
+<main id="top">
+  <section class="l-hero">
+    <p class="l-kicker">Free · runs in your browser · AI built in</p>
+    <h1>What are your customers actually saying?</h1>
+    <p class="l-sub">Aspect-level sentiment, trends that show when something changed, complaint phrases and reply drafts for unhappy customers.</p>
+    <div class="l-actions"><a class="btn primary big" href="app.html">Open the app</a><a class="btn big" href="#demo">See it working</a></div>
+  </section>
+
+  <section class="l-demo reveal" id="demo">
+    <div class="l-window"><div class="l-window-bar"><i></i><i></i><i></i><span>Review Radar</span></div>
+      <iframe src="app.html?embed=1" title="Review Radar live demo" loading="lazy"></iframe></div>
+    <p class="l-caption">This is the real app running below, not a recording. Try it.</p>
+  </section>
+
+  <section class="l-section reveal" id="ask">
+    <div class="l-head"><p class="l-kicker">Just say what you want</p><h2>Tell it in plain words. It uses its own tools to do it.</h2>
+      <p>Open the AI box in the app, type a request, and the AI drives the app's real features for you: it sets things up, edits, runs and reports back. Standing instructions let you shape every AI feature to how you like to work.</p></div>
+    <div class="l-prompts"><div class="l-prompt"><div class="say">What is the biggest complaint and when did it start?</div><div class="does">Reads the trends and answers with dates.</div></div><div class="l-prompt"><div class="say">Compare battery feedback between the two products</div><div class="does">Opens the comparison and summarizes it.</div></div><div class="l-prompt"><div class="say">Draft replies to the five worst reviews</div><div class="does">Writes replies into the queue.</div></div></div>
+  </section>
+
+  <section class="l-section reveal" id="features">
+    <div class="l-head"><p class="l-kicker">What it does</p><h2>Everything in one place</h2></div>
+    <div class="l-grid"><div class="l-card"><h3>CSV import</h3><p>CSV import with auto column detection, paste mode, and a 146-review synthetic sample with real trends</p></div><div class="l-card"><h3>Sentence-level lexicon sentiment</h3><p>Sentence-level lexicon sentiment with negation scope, intensifiers and contrastive &#x27;but&#x27; weighting</p></div><div class="l-card"><h3>Aspect extraction</h3><p>Aspect extraction + diverging positive/neutral/negative bars (click to filter)</p></div><div class="l-card"><h3>Monthly rating vs text-sentiment trend lines</h3><p>Monthly rating vs text-sentiment trend lines and rating distribution</p></div><div class="l-card"><h3>Distinctive-word clouds</h3><p>Distinctive-word clouds via weighted log-odds ratio (Monroe, Colaresi &amp; Quinn 2008)</p></div><div class="l-card"><h3>Suspicious-review detector</h3><p>Near-duplicates, bursts, generic 5, rating/text mismatch</p></div><div class="l-card"><h3>AI executive brief</h3><p>AI executive brief (praise, complaints, requests, prioritized actions) and streaming reply drafts</p></div><div class="l-card"><h3>Datasets</h3><p>Keep several imported or pasted review sets in the browser and switch between them; CSV import detects text, rating and date columns and rescales ratings out of 10 or 100</p></div><div class="l-card"><h3>Trends page</h3><p>Monthly rating and text sentiment, a month-by-aspect heatmap of net sentiment, and change-point detection that reports when an aspect&#x27;s complaints rose or fell</p></div></div>
+  </section>
+
+  <section class="l-section reveal">
+    <div class="l-head"><p class="l-kicker">How it works</p><h2>Real engines where it counts, AI where it helps</h2></div>
+    <div class="l-steps">
+      <div><span>1</span><h3>Open the app</h3><p>No sign-up needed right now. Everything runs in your browser.</p></div>
+      <div><span>2</span><h3>Ask in your own words</h3><p>Type or click. The AI handles executive summary from a stratified review sample + computed statistics (JSON); customer-care reply drafting.</p></div>
+      <div><span>3</span><h3>Keep what you make</h3><p>Your work is saved in your browser and can be exported any time.</p></div>
     </div>
-    <span class="small muted">CSV needs a text/review column; rating (1-5, /10 or /100) and date are optional</span>
-  </div>
-  <textarea id="paste" class="hidden" rows="6" placeholder="One review per line. Optionally start with a rating: 4 | Great sound but…"></textarea>
-  <div class="kpis" id="tiles"></div>
-  <div class="grid cols-2">
-    <div class="card"><h2>Aspect sentiment</h2><div id="aspects"></div><p class="small muted">Share of positive vs negative mentions per aspect (sentence-level, with negation handling).</p></div>
-    <div class="card"><h2>Rating distribution</h2><div id="distMini"></div></div>
-  </div>
-  <div class="card">
-    <div class="row between"><h2 style="margin:0">AI executive summary</h2><button class="btn" id="summ">Summarize</button></div>
-    <div id="summary" style="margin-top:10px"><p class="small muted">Sends a stratified sample of reviews plus the local stats to the AI.</p></div>
-  </div>
-  <div class="grid cols-2">
-    <div class="card"><h2>Distinctive words</h2><div class="grid cols-2"><div><h3 style="color:var(--good)">in 4-5 star reviews</h3><div id="posWords" class="cloud"></div></div><div><h3 style="color:var(--bad)">in 1-2 star reviews</h3><div id="negWords" class="cloud"></div></div></div><p class="small muted">Weighted log-odds ratio with an informative prior (Monroe et al.).</p></div>
-    <div class="card"><h2>Suspicious reviews</h2><div id="sus"></div></div>
-  </div>
-  <div class="card">
-    <div class="row between"><h2 style="margin:0">Reviews</h2><div class="row"><select id="fAspect" style="width:auto"><option value="">All aspects</option></select><select id="fSent" style="width:auto"><option value="">Any sentiment</option><option value="neg">Negative</option><option value="pos">Positive</option><option value="mismatch">Rating disagrees with text</option></select></div></div>
-    <div id="list" class="list"></div>
-  </div>
-</main>
-</div>
-<div class="page" data-page="trends" data-title="Trends">
-<main class="stack">
-  <div class="card"><h2>Ratings and sentiment by month</h2><div id="trend"></div><div id="dist"></div></div>
-  <div class="card"><div class="row between"><h2 style="margin:0">Aspect sentiment by month</h2><span class="small muted">net = (positive − negative) / mentions</span></div><div id="heat" class="table-wrap"></div></div>
-  <div class="card"><h2>Detected shifts</h2><div id="shifts"></div></div>
-</main>
-</div>
+    <p class="l-note">Computed locally, with no AI involved: parsing, sentiment, aspect mining, statistics, duplicate detection, charts.</p>
+  </section>
 
-<div class="page" data-page="phrases" data-title="Phrases">
-<main class="grid cols-2">
-  <div class="card"><h2 style="color:var(--bad)">In negative reviews</h2><div id="negPhrases"></div></div>
-  <div class="card"><h2 style="color:var(--good)">In positive reviews</h2><div id="posPhrases"></div></div>
-</main>
-</div>
+  <section class="l-section reveal" id="faq">
+    <div class="l-head"><p class="l-kicker">Questions</p><h2>Good to know</h2></div>
+    <div class="l-faq">
+      <details><summary>Is it free?</summary><p>Yes. Every feature is free. </p></details>
+      <details><summary>Where is my data stored?</summary><p>What you create stays in this browser on this device. You can export a backup or delete everything from Settings.</p></details>
+      <details><summary>Do I need an API key?</summary><p>Not to try it: the app runs in demo mode with sample AI output. For live AI, connect a free Groq or OpenRouter key in Settings.</p></details>
+      <details><summary>What can I type into the AI box?</summary><p>Anything you would ask a helpful colleague who knows the app, such as: "What is the biggest complaint and when did it start?". It plans the steps, runs the app's own functions and tells you what it did. The Instructions tab saves preferences every AI feature follows.</p></details>
+      <details><summary>Can I see the code?</summary><p>Yes. It is open source under the MIT license on <a href="https://github.com/dguywhoknows/review-analyzer" rel="noopener">GitHub</a>, with a <a href="tests/">public test suite</a>.</p></details>
+    </div>
+  </section>
 
-<div class="page" data-page="compare" data-title="Compare">
-<main class="stack">
-  <div class="card row"><select id="cmpA" style="width:auto" aria-label="First dataset"></select><span class="muted">vs</span><select id="cmpB" style="width:auto" aria-label="Second dataset"></select><span class="small muted">Load samples to get two fictional products to compare.</span></div>
-  <div class="kpis" id="cmpTiles"></div>
-  <div class="card"><h2>Aspect by aspect</h2><div id="cmpTable"></div></div>
+  <section class="l-final reveal">
+    <h2>What are your customers actually saying?</h2>
+    <a class="btn primary big" href="app.html">Open the app</a>
+  </section>
 </main>
-</div>
 
-<div class="page" data-page="replies" data-title="Replies">
-<main class="stack">
-  <div class="page-head"><div><h2>Reply queue</h2><p id="repSummary"></p></div><div class="row"><select id="repFilter" style="width:auto" aria-label="Filter"><option value="todo">Needs a reply</option><option value="draft">Drafted</option><option value="sent">Marked sent</option><option value="">All negative</option></select><button class="btn" id="repAll">Draft the next 5</button><button class="btn ghost" id="repCsv">Export CSV</button></div></div>
-  <div id="repList" class="stack"></div>
-</main>
-</div>
-
-<div class="page" data-page="settings" data-title="Settings"></div>
-<script src="src/lib/dom.js"></script>
-<script src="src/lib/ai.js"></script>
-<script src="src/lib/router.js"></script>
-<script src="src/core.js"></script>
-<script src="src/demo.js"></script>
-<script src="src/app.js"></script>
+<footer class="l-foot"><span>Review Radar</span><span><a href="https://github.com/dguywhoknows/review-analyzer" rel="noopener">Source</a> · <a href="tests/">Tests</a> · MIT license</span></footer>
+<script>
+document.querySelectorAll('.reveal').forEach((el) => el.classList.add('pre'));
+const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.remove('pre'); io.unobserve(x.target); } }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
 </body>
 </html>
