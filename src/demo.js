@@ -1,4 +1,4 @@
-/* demo.js — seeded sample review sets for two fictional earbuds, used on first load and on the Compare page. */
+/* Seeded sample review sets for two fictional earbuds, used on first load and on the Compare page. */
 function seededRandom(seed) { var s = seed; return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
 function sampleReviews(seed, variant) {
   const r = seededRandom(seed || 11), pick = (a) => a[Math.floor(r() * a.length)], b = variant === 'b';
